@@ -25,12 +25,14 @@ export async function usersRoutes(app: FastifyInstance) {
 
     const hashedPassword = await bcrypt.hash(password, 10)
 
-    await knex('users').insert({
-      id: randomUUID(),
-      name,
-      login,
-      password: hashedPassword,
-    })
+    await knex('users')
+      .insert({
+        id: randomUUID(),
+        name,
+        login,
+        password: hashedPassword,
+      })
+      .returning('*')
 
     const token = jwt.sign({ login, name }, env.JWT_SECRET, {
       expiresIn: '1h',

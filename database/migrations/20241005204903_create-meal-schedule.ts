@@ -7,6 +7,12 @@ export async function up(knex: Knex): Promise<void> {
     table.string('description').notNullable()
     table.timestamp('eaten_at').notNullable()
     table.boolean('is_on_plan').notNullable()
+    table
+      .uuid('user_id')
+      .notNullable()
+      .references('id')
+      .inTable('users')
+      .onDelete('CASCADE')
     table.timestamp('created_at').defaultTo(knex.fn.now())
   })
 }
