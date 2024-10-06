@@ -97,6 +97,10 @@ export async function usersRoutes(app: FastifyInstance) {
 
       const user = await knex('users').where({ login }).first()
 
+      if (!user) {
+        return reply.status(400).send({ message: 'User not found' })
+      }
+
       reply.send({ name: user.name, login })
     },
   )
