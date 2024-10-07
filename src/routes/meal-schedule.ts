@@ -14,6 +14,10 @@ export async function mealScheduleRoutes(app: FastifyInstance) {
 
     const user = await knex('users').where({ login }).first()
 
+    if (!user) {
+      return reply.status(404).send({ message: 'User not found' })
+    }
+
     const mealScheduleSchema = z.object({
       name: z.string(),
       description: z.string(),
